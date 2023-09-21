@@ -2,6 +2,9 @@ import { remove0x, add0x } from '@metamask/utils';
 import { decode } from '@metamask/abi-utils';
 import { ethers } from 'ethers';
 
+const MOBYMASK_ADRRESS = '0x2B6AFbd4F479cE4101Df722cF4E05F941523EaD9';
+const CHAIN_ID = 42069;
+
 /**
  * As an example, get transaction insights by looking at the transaction data
  * and attempting to decode it.
@@ -10,7 +13,7 @@ import { ethers } from 'ethers';
  * @returns The transaction insights.
  */
 export async function getInsights(transaction: Record<string, unknown>) {
-  const mobyMaskAddress = '0xD07Ed0eB708Cb7A660D22f2Ddf7b8C19c7bf1F69';
+  const mobyMaskAddress = MOBYMASK_ADRRESS;
 
   const hexChainId = await ethereum.request({ method: 'eth_chainId' });
   const chainId = parseInt(`${hexChainId}`, 16);
@@ -19,8 +22,8 @@ export async function getInsights(transaction: Record<string, unknown>) {
 
   try {
     // Check if the transaction has data.
-    if (chainId !== 1) {
-      returnObject.Notice = 'Insights are only available for Ethereum mainnet.';
+    if (chainId !== CHAIN_ID) {
+      returnObject.Notice = `Insights are not available for chainId ${chainId}.`;
       throw 'Not on Ethereum mainnet.';
     }
 
